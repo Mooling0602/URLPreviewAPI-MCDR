@@ -1,0 +1,14 @@
+{
+    "id": "url_preview",
+    "version": "0.0.1",
+    "name": "URLPreviewAPI",
+    "description": {
+        "en_us": "Preview the text or image content of the URLs in game chat.",
+        "zh_cn": "在游戏聊天中预览URL的文本或图片内容。"
+    },
+    "dependencies": {
+        "mcdreforged": ">=2.1.0"
+    },
+    "author": ["Mooling0602"],
+    "link": "https://github.com/Mooling0602/URLPreviewAPI-MCDR"
+}
