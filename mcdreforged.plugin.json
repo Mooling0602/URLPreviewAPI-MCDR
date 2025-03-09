@@ -1,6 +1,6 @@
 {
     "id": "url_preview",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "name": "URLPreviewAPI",
     "description": {
         "en_us": "Preview the text or image content of the URLs in game chat.",

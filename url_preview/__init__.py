@@ -16,7 +16,7 @@ class RTextURL:
         '''
         self.preference = preference # will  implement in the future.
     def __call__(self, url):
-        if not url.startswith('http://') or not url.startswith('https://'):
+        if not url.startswith('http'):
             url = 'https://' + url
         parsed_info = parse_url_info(url, locale='zh-CN,zh;q=0.9') if psi.get_mcdr_language() == "zh_cn" else parse_url_info(url)
         parsed_error = parsed_info.get('error')
@@ -29,11 +29,15 @@ class RTextURL:
         for i in [url_title, url_summary]:
             if i is None:
                 return None
-        url_style_display = f'[§b{url_title}§r] (§a{url}§r)'
+        url_title_format = f'[§b{url_title}§r]'
+        url_link_format = f'(§a{url}§r)'
         prefix = "Description"
         if psi.get_mcdr_language() == "zh_cn":
             prefix = "摘要"
-        return RText(text=url_style_display).h(f"{prefix}: {url_summary}").c(RAction.open_url, url)
+        url_title_rtext = RText(text=url_title_format).h(f"{prefix}: {url_summary}")
+        url_link_rtext = RText(text=url_link_format).set_click_event(RAction.open_url, url)
+        url_rtext = RTextList(url_title_rtext, url_link_rtext)
+        return url_rtext
     
 def on_load(server: PluginServerInterface, prev_module):
     builder.arg('url', Text)
@@ -44,8 +48,8 @@ def on_load(server: PluginServerInterface, prev_module):
 @builder.command('!!url <url>')
 def on_test(src: CommandSource, ctx: CommandContext):
     if src.is_console:
-        psi.logger.warning("URL style can't be displayed in console, the result will be sent to the game.")
+        psi.logger.warning("Some style features can't work in console, please view it in the JE client.")
     url = ctx['url']
     rtext_url = RTextURL()
     rtext = rtext_url(url)
-    psi.say(rtext) if rtext is not None else psi.say('§cError parsing URL.')
+    psi.broadcast(rtext) if rtext is not None else psi.say('§cError parsing URL.')
